@@ -2,3 +2,6 @@
 coordBool=false
 timerBool=true
 scaleBool=true
+l1 = 1
+l2=1
+l3=1

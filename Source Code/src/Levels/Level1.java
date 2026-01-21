@@ -25,10 +25,13 @@ public class Level1 extends BasePanel implements ActionListener, MouseListener, 
 	boolean running;
 	boolean ended;
 	boolean newBest;
-	Timer timer = new Timer(1000, this);
 	Timer checkTimer = new Timer(10, this);
 	String starStr;
 	public static int attempt = 1;
+	
+	// Delta time variables for frame-independent timing
+	private long lastTime;
+	private double timeAccumulator = 0.0;
 	
 	KPanel lvlPN = new KPanel();
 		KPanel gamePN = new KPanel();
@@ -166,11 +169,22 @@ public class Level1 extends BasePanel implements ActionListener, MouseListener, 
 		if (e.getSource() == backBT) {
 			super.scene(new Play());
 		}
-		if (e.getSource() == timer) {
-			sec++;
-			timerLB.setText(""+sec);
-		}
 		if (e.getSource() == checkTimer) {
+			// Update timer with delta time
+			if (running) {
+				long currentTime = System.currentTimeMillis();
+				double deltaTime = (currentTime - lastTime) / 1000.0; // Convert to seconds
+				lastTime = currentTime;
+				
+				timeAccumulator += deltaTime;
+				if (timeAccumulator >= 1.0) {
+					sec++;
+					timerLB.setText(""+sec);
+					timeAccumulator -= 1.0;
+				}
+			}
+			
+			// Collision check
 			try {
 				Color cursor = super.pixelColor();
 				if (cursor.getRed() == KColor.bg.getRed() || cursor.getRed() == KColor.darkgray.getRed()) {
@@ -204,7 +218,8 @@ public class Level1 extends BasePanel implements ActionListener, MouseListener, 
 	void gameStart() {
 		running = true;
 		ended = false;
-		timer.restart();
+		lastTime = System.currentTimeMillis();
+		timeAccumulator = 0.0;
 		backBT.setVisible(false);
 		titleLB.setVisible(false);
 		start.setVisible(false);
@@ -218,8 +233,8 @@ public class Level1 extends BasePanel implements ActionListener, MouseListener, 
 	}
 	void gameOver() {
 		running = false;
-		timer.stop();
 		sec = 0;
+		timeAccumulator = 0.0;
 		timerLB.setText(""+sec);
 		backBT.setVisible(true);
 		titleLB.setVisible(true);
@@ -239,7 +254,6 @@ public class Level1 extends BasePanel implements ActionListener, MouseListener, 
 	void gameEnd() {
 		running = false;
 		ended = true;
-		timer.stop();
 		timeLB.setText("Time: "+sec+" secs");
 		timerLB.setText(""+sec);
 		attempt = 1;
