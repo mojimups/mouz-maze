@@ -1,0 +1,4 @@
+#Wed Jan 21 11:57:17 ICT 2026
+coordBool=false
+timerBool=true
+scaleBool=true
