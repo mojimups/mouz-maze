@@ -1,14 +1,15 @@
 # Mouz Maze
 A tiny cursor maze game — my very first game project, built with Java JComponent back in 2022 as a college assignment.
 
+### Dependency
+Install Java 17 JDK
+
 ### Run instructions
-1. Install Java 17 JDK
-2. Run run.bat
+Run run.bat
 
 ### Build instructions
-1. Install Java 17 JDK
-2. Open cmd in this folder
-3. Type in:
+1. Open cmd in this folder
+2. Type in:
    & "C:\Program Files\Java\jdk-17\bin\jpackage.exe" `
    --type app-image `
    --input "Source Code\bin" `
@@ -19,4 +20,4 @@ A tiny cursor maze game — my very first game project, built with Java JCompone
    --app-version "1.0.0" `
    --vendor "mojimups" `
    --icon "favicon.ico"
-4. The finished build will be in /dist
+3. The finished build will be in /dist
